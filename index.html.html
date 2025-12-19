@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Tools</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-6">
+
+    <div class="max-w-3xl mx-auto space-y-6">
+
+        <!-- TO DO LIST -->
+        <div class="bg-white rounded-xl p-6 shadow">
+            <h2 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                <span class="text-blue-500">📝</span> To-Do List
+            </h2>
+
+            <div class="flex gap-2">
+                <input id="taskInput" type="text" placeholder="Enter a new task..."
+                       class="w-full border rounded px-3 py-2">
+                <button onclick="addTask()"
+                        class="bg-blue-600 text-white px-4 py-2 rounded">Add Task</button>
+            </div>
+
+            <ul id="taskList" class="mt-4 space-y-2 text-gray-700"></ul>
+        </div>
+
+
+
+        <!-- CALCULATOR -->
+        <div class="bg-white rounded-xl p-6 shadow">
+            <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                <span class="text-green-500">🧮</span> Calculator
+            </h2>
+
+            <div id="calcDisplay"
+                 class="w-full bg-gray-200 text-right text-2xl p-3 rounded mb-3">0</div>
+
+            <div class="grid grid-cols-4 gap-3">
+                <button class="btn" onclick="press('7')">7</button>
+                <button class="btn" onclick="press('8')">8</button>
+                <button class="btn" onclick="press('9')">9</button>
+                <button class="btn bg-red-500 text-white" onclick="clearCalc()">C</button>
+
+                <button class="btn" onclick="press('4')">4</button>
+                <button class="btn" onclick="press('5')">5</button>
+                <button class="btn" onclick="press('6')">6</button>
+                <button class="btn bg-blue-500 text-white" onclick="press('/')">/</button>
+
+                <button class="btn" onclick="press('1')">1</button>
+                <button class="btn" onclick="press('2')">2</button>
+                <button class="btn" onclick="press('3')">3</button>
+                <button class="btn bg-blue-500 text-white" onclick="press('*')">*</button>
+
+                <button class="btn" onclick="press('0')">0</button>
+                <button class="btn" onclick="press('.')">.</button>
+                <button class="btn bg-green-500 text-white" onclick="calculate()">=</button>
+                <button class="btn bg-blue-500 text-white" onclick="press('-')">-</button>
+            </div>
+        </div>
+
+
+
+        <!-- DIGITAL CLOCK -->
+        <div class="bg-white rounded-xl p-6 shadow">
+            <h2 class="text-xl font-semibold mb-3">🕒 Digital Clock</h2>
+            <div id="clock" class="text-4xl font-bold text-center py-4 text-blue-600"></div>
+        </div>
+
+    </div>
+
+
+<script>
+    /* TO DO LIST */
+    function addTask() {
+        let input = document.getElementById("taskInput");
+        if (input.value.trim() === "") return alert("Task tidak boleh kosong!");
+
+        let li = document.createElement("li");
+        li.className = "bg-gray-100 p-2 rounded flex justify-between";
+        li.innerHTML = `${input.value} 
+                        <button onclick="this.parentElement.remove()" 
+                                class="text-red-500">✖</button>`;
+
+        document.getElementById("taskList").appendChild(li);
+        input.value = "";
+    }
+
+    /* CALCULATOR */
+    let expression = "";
+
+    function press(value) {
+        expression += value;
+        document.getElementById("calcDisplay").textContent = expression;
+    }
+
+    function clearCalc() {
+        expression = "";
+        document.getElementById("calcDisplay").textContent = "0";
+    }
+
+    function calculate() {
+        try {
+            expression = eval(expression).toString();
+            document.getElementById("calcDisplay").textContent = expression;
+        } catch {
+            alert("Error");
+        }
+    }
+
+    /* DIGITAL CLOCK */
+    function updateClock() {
+        let now = new Date();
+        clock.textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+</script>
+
+<style>
+    .btn {
+        @apply bg-gray-200 py-3 rounded text-lg font-semibold;
+    }
+</style>
+
+</body>
+</html>
